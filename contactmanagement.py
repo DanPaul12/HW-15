@@ -1,4 +1,6 @@
 
+import re 
+
 contacts = {
     8052174796 : {"Name": "Dan Schechter", "email": "danandrum@gmail.com"},
     8586924163 : {"Name": "Alyssa Virker", "email": "alyssa.c.virker@gmail.com"}
@@ -30,8 +32,26 @@ def search_contacts(contacts):
     for contact, _ in contacts.items():
         if num == contact:
             print(contacts[contact])
+            break
         else:
             print("Contact not found")
+
+def write_contact(filename, contacts):
+    with open(filename, "w") as file:
+        for contact, info in contacts.items():
+            file.write(f"Number:{contact} info: {info} \n")
+
+def read_contact(filename, contacts):
+   with open(filename, "r") as file:
+        for line in file:
+            num = re.findall(r"\d{8}",line)
+            info = re.findall(r"^N.+com$", line)
+            first_num = num[0]
+            first_info = info[0]
+            contacts[first_num]= {"info": [first_info],}
+            print(contacts)
+
+#This last one doesnt work, please let me know what I should have done
 
 while True:
     command = int(input("Welcome to the Contact Management System! \nMenu:\n1. Add a new contact\n2. Edit an existing contact\n3. Delete a contact\n4. Search for a contact\n5. Display all contacts\n6. Export contacts to a text file\n7. Import contacts from a text file *BONUS*\n8. Quit\nSelect a number 1-8: "))
@@ -46,9 +66,9 @@ while True:
     elif command == 5:
         print(contacts)
     elif command == 6:
-        pass
+        write_contact("mycontacts.txt", contacts)
     elif command == 7:
-        pass
+        read_contact("mycontacts.txt", contacts)
     elif command == 8:
         break
     else:
