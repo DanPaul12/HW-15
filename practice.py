@@ -18,6 +18,7 @@ def edit_contact(contacts):
             new_name = input("What is contact's name?: ")
             new_email = input("What is contact's email?: ")
             contacts[contact]= {"Name": [new_name], "email": [new_email]}
+            print(contacts)
 
 def delete_contacts(contacts):
     num = int(input("What is the phone number of the contact you'd like to delete?: "))
@@ -32,12 +33,20 @@ def search_contacts(contacts):
         else:
             print("Contact not found")
 
+def write_contact(filename, contacts):
+    with open(filename, "w") as file:
+        for contact, info in contacts.items():
+            file.write(f"Number:{contact} info: {info} \n")
+
+def read_contact(filename, contacts):
+    with open(filename, "r") as file:
+
 while True:
     command = int(input("Welcome to the Contact Management System! \nMenu:\n1. Add a new contact\n2. Edit an existing contact\n3. Delete a contact\n4. Search for a contact\n5. Display all contacts\n6. Export contacts to a text file\n7. Import contacts from a text file *BONUS*\n8. Quit\nSelect a number 1-8: "))
     if command == 1:
         add_contact(contacts)
     elif command == 2:
-        edit_contact()
+        edit_contact(contacts)
     elif command == 3:
         delete_contacts(contacts)
     elif command == 4:
@@ -45,7 +54,7 @@ while True:
     elif command == 5:
         print(contacts)
     elif command == 6:
-        pass
+        write_contact("mycontacts.txt", contacts)
     elif command == 7:
         pass
     elif command == 8:
